@@ -29,22 +29,17 @@ div#main{
 	margin: 20px auto;
 	font-family: 华文彩云;
 	text-shadow: 5px 5px 10px #3E3E3E;
-	/*position: relative;
-
-	right: 20px;
-	top: 20px;*/
 	/*border: 1px solid #000;*/
 }
 #message_box{
-	width: 400px;
+	width: 350px;
 	height: 150px;
+	float: left;
+	margin: 30px 25px;
+	border: 1px solid #000;
+}
+#message{
 	font-size: 50px;
 	text-align: center;
-	float: left;
-	margin: 30px auto;
-	/*position: relative;
-
-	right: 20px;
-	top: 20px;*/
-	border: 1px solid #000;
+	margin-top: 40px;
 }
