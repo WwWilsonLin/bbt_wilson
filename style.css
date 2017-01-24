@@ -1,55 +1,55 @@
+html,body{
+	font-size: 16.875px;
+}
 div#main{
 	/*border: 1px solid #000;*/
-	width: 1000px;
-	height: 550px;
+	width: 1024px;
+	height: 512px;
 	left: 10%;
 	position: relative;
 }
 #chessboard_box{
 	border: 1px solid #000;
 	float: left;
-	/*position: absolute;
-	left: 20px;
-	top: 20px;*/
 	width: 500px;
 	height: 500px;
 }
 #text_box{
-	border: 1px solid #000;
+	/*border: 1px solid #000;*/
 	float: left;
-	width: 400px;
-	height: 500px;
+	width: 40%;
+	height: 100%;
 }
 #title_box{
-	width: 400px;
-	height: 60px;
-	font-size: 50px;
+	width: 100%;
+	height: 12%;
+	font-size: 2.5rem;
 	text-align: center;
 	float: left;
-	margin: 20px auto;
+	margin: 4% auto;
 	font-family: 华文彩云;
-	text-shadow: 5px 5px 10px #3E3E3E;
+	text-shadow: 0.25rem 0.25rem 0.5rem #3E3E3E;
 	/*border: 1px solid #000;*/
 }
 #message_box{
-	width: 350px;
-	height: 150px;
+	width: 70%;
+	height: 12%;
 	float: left;
-	margin: 30px 25px;
+	margin: 5% 15%;
 	border: 1px solid #000;
-	border-radius:25px;
-    -moz-border-radius:25px; /* Old Firefox */
+	border-radius: 1rem;
+    -moz-border-radius: 1rem; /* Old Firefox */
 }
 #message{
-	font-size: 50px;
+	font-size: 1.75rem;
 	text-align: center;
-	margin-top: 40px;
+	margin-top: 1%;
 }
-button#save,#read{
-	width: 300px;
-	height: 60px;
+button#save,#read,#new{
+	width: 60%;
+	height: 12%;
 	float: left;
-	margin: 10px 50px;
-	font-size: 30px;
+	margin: 3% 20%;
+	font-size: 1.5rem;
 	text-align: center;
 }
