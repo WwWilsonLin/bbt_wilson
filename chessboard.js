@@ -4,30 +4,47 @@ var winner = "";
 var storage = [];
 
 var arr = new Array();          
-function clean(){
+function clean(p){
 	for(var i = -3; i < 24 ; i++){          
-		arr[i*25] = new Array();     
+		arr[i*p] = new Array();     
 		for(var j = -3; j < 24; j++){      
-			arr[i*25][j*25] = ""; 
+			arr[i*p][j*p] = ""; 
 		} 
 	}
 }
-clean();
+
 
 var canvas = document.getElementById("chessboard");
+//获取屏幕的宽度
+var clientHeight = document.documentElement.clientHeight;
+var clientWidth = document.documentElement.clientWidth;
+if (clientWidth > clientHeight) {
+	var p = Math.floor(clientHeight * 9 / 200);
+}
+else {
+	var p = Math.floor(clientWidth * 9 / 200);
+}
+
+var canvasWidth = Math.floor(p * 20);
+canvas.setAttribute('width',canvasWidth+'px');
+canvas.setAttribute('height',canvasWidth+'px');
+document.getElementById("chessboard_box").setAttribute('width',canvasWidth+'px');
+document.getElementById("chessboard_box").setAttribute('height',canvasWidth+'px');
+
+clean(p);
 var cxt = canvas.getContext("2d");
 //打印棋盘
 function print(){
 	for (var i = 0; i < 21; i++) {
 		cxt.beginPath();
-		cxt.moveTo(i*25 ,  0 );
-		cxt.lineTo(i*25 , 500);
-		cxt.lineTo(i*25 ,  0 );
-		cxt.lineTo(i*25 , 500);
-		cxt.moveTo( 0 , i*25);
-		cxt.lineTo(500, i*25);
-		cxt.moveTo( 0 , i*25);
-		cxt.lineTo(500, i*25);
+		cxt.moveTo(i*p ,  0 );
+		cxt.lineTo(i*p , canvasWidth);
+		cxt.lineTo(i*p ,  0 );
+		cxt.lineTo(i*p , canvasWidth);
+		cxt.moveTo( 0 , i*p);
+		cxt.lineTo(canvasWidth, i*p);
+		cxt.lineTo( 0 , i*p);
+		cxt.lineTo(canvasWidth, i*p);
 		cxt.stroke();
 	}
 }
@@ -39,10 +56,10 @@ canvas.onclick = function(e){
  	var rect = canvas.getBoundingClientRect();   
  	var x = e.clientX - rect.left * (canvas.width / rect.width);
     var y = e.clientY - rect.top * (canvas.height / rect.height);
-	var chess_x = Math.round(x/25) * 25;
-	var chess_y = Math.round(y/25) * 25;
+	var chess_x = Math.round(x/p) * p;
+	var chess_y = Math.round(y/p) * p;
 
-	if (chess_x == 0 || chess_x == 500 || chess_y == 0 || chess_y == 500 || arr[chess_x][chess_y] !== "" || winner !== ""){}
+	if (chess_x == 0 || chess_x == canvasWidth || chess_y == 0 || chess_y == canvasWidth || arr[chess_x][chess_y] !== "" || winner !== ""){}
 	else{
 		if (turn == "w"){
 			document.getElementById('message').innerHTML = '轮到黑方了';
@@ -63,7 +80,7 @@ canvas.onclick = function(e){
 //打印棋子
 function chess(s,chess_x,chess_y){	
 	cxt.beginPath();
-	cxt.arc(chess_x,chess_y,12,0,360,false);
+	cxt.arc(chess_x,chess_y,Math.floor(p/2),0,360,false);
 	cxt.lineWidth = 1;
 	if (s == "white"){
 		cxt.fillStyle = "#FFF";
@@ -82,11 +99,11 @@ function chess(s,chess_x,chess_y){
 //胜负判定
 function check(s,x,y){
 	var k=0;
-	var arrx = x / 25;
-	var arry = y / 25;
+	var arrx = x / p;
+	var arry = y / p;
 	//横
 	for(var i = (arrx - 4); i < (arrx + 5); i++){
-		if (arr[i*25][y] == s){
+		if (arr[i*p][y] == s){
 			k++;
 			if (k == 5){
 				win(s);
@@ -100,7 +117,7 @@ function check(s,x,y){
 	//竖
 	k = 0;
 	for(var j = (arry - 4); j < (arry + 5); j++){
-		if (arr[x][j*25] == s){
+		if (arr[x][j*p] == s){
 			k++;
 			if (k == 5){
 				win(s);
@@ -114,7 +131,7 @@ function check(s,x,y){
 	//斜45
 	k = 0;
 	for(var i = -4; i < 5; i++){
-		if (arr[x - (i * 25)][y + (i * 25)] == s){
+		if (arr[x - (i * p)][y + (i * p)] == s){
 			k++;
 			if (k == 5){
 				win(s);
@@ -128,7 +145,7 @@ function check(s,x,y){
 	//斜135
 	k = 0;
 	for(var i = -4; i < 5; i++){
-		if (arr[x + (i * 25)][y + (i * 25)] == s){
+		if (arr[x + (i * p)][y + (i * p)] == s){
 			k++;
 			if (k == 5){
 				win(s);
@@ -144,9 +161,11 @@ function win(s){
 	winner = s;
 	if (s == "white"){
 		document.getElementById('message').innerHTML = "白方赢了!!!";
+		document.getElementById('save').disabled = true;
 	}
 	else if (s == "black"){
 		document.getElementById('message').innerHTML = "黑方赢了!!!";
+		document.getElementById('save').disabled = true;
 	}
 }
 //存储
@@ -174,9 +193,9 @@ read.onclick = function(){
 	}
 	turn = localStorage.turn || "b";
 	//清空棋盘
-	cxt.clearRect(0, 0, 500, 500);
+	cxt.clearRect(0, 0, canvasWidth, canvasWidth);
 	print();
-	clean();
+	clean(p);
 
 	if (turn == "w"){
 		document.getElementById('message').innerHTML = '轮到白方了';
@@ -187,12 +206,7 @@ read.onclick = function(){
 	console.log(storage);
 	for (var i = 0; i < n; i++){
 		arr[storage[i]["x"]][storage[i]["y"]] = storage[i]["who"];
-		if (storage[i]["who"] == "black"){
-			black(storage[i]["x"],storage[i]["y"]);
-		}
-		else if (storage[i]["who"] == "white"){
-			white(storage[i]["x"],storage[i]["y"]);
-		}
+		chess(storage[i]["who"],storage[i]["x"],storage[i]["y"]);
 	}
 	console.log(arr);
 }
